@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('check表格页')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "clientuw/core";
+		var underWriterIds = [[${underWriterIds}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list/subuw?underWriterIds=" + underWriterIds,
+		        showSearch: false,
+		        showRefresh: false,
+		        showToggle: false,
+		        showColumns: false,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'subuwNo',
+					title : '子承保商ID'
+				},
+				{
+					field : 'subuwName',
+					title : '子承保商名称'
+				}]
+            };
+            $.table.init(options);
+        });
+        
+        /* 添加用户-选择用户-提交 */
+		function submitHandler() {
+			var subuwNos = $.table.selectFirstColumns();
+			var subuwNames = $.table.selectColumns("subuwName");
+			$.modal.close();
+			// 把选中的值 赋值给父页面的变量
+			parent.$('#subuwNo').val(subuwNos.join());
+			parent.$('#subuwName').val(subuwNames.join());
+		}
+    </script>
+</body>
+</html>

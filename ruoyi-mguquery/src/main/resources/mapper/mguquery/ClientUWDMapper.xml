@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mguquery.mapper.ClientUWDMapper">
+
+    <resultMap type="ClientUWD" id="ClientUWDResult">
+        <result column="clientid"    property="clientId"    />
+        <result column="cshortname"    property="cShortName"    />
+        <result column="cchinesename"    property="cChineseName"    />
+        <result column="cenglishname"    property="cEnglishName"    />
+        <result column="businesstype"    property="businessType"    />
+        <result column="underwriterid"    property="underwriterId"    />
+        <result column="underwritername"    property="underwriterName"    />
+        <result column="Subunderwriterid"    property="subuwNo"    />
+        <result column="SUBUWNAME"    property="subuwName"    />
+        <result column="CategoryID"    property="categoryID"    />
+        <result column="categoryName"    property="categoryName"    />
+    </resultMap>
+
+    <sql id="selectClientUWDVo">
+        select clientid,cshortname,cchinesename,cenglishname,businesstype,underwriterid,underwritername,Subunderwriterid,SUBUWNAME,CategoryID,categoryName from V_APP_CLIENTUWD
+    </sql>
+
+    <select id="findByClientIdIn" resultMap="ClientUWDResult">
+        <include refid="selectClientUWDVo"/>
+        where clientid in
+        <foreach item="id" collection="list" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findByUnderwriterIdIn" resultMap="ClientUWDResult">
+        <include refid="selectClientUWDVo"/>
+        where underwriterid in
+        <foreach item="id" collection="list" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findUnderwriterIdsByUnderwriterNameLike" parameterType="String" resultType="String">
+        select underwriterid from V_APP_CLIENTUWD  where lower(underwritername) LIKE lower(#{underwriterName})
+    </select>
+
+    <select id="findClientIdsByClientNameLike" parameterType="String" resultType="String">
+        select clientid from V_APP_CLIENTUWD  where lower(cshortname) LIKE lower(#{cShortName})
+    </select>
+
+    <select id="getViewLiUnderWriterInfos" resultMap="ClientUWDResult">
+        SELECT DISTINCT underwriterid,underwritername FROM V_APP_CLIENTUWD WHERE UNDERWRITERID IS NOT NULL ORDER BY UNDERWRITERID ASC
+    </select>
+
+    <select id="getViewLiClientBaseInfos" resultMap="ClientUWDResult">
+        SELECT DISTINCT clientid,cshortname,cchinesename,cenglishname FROM V_APP_CLIENTUWD
+    </select>
+
+    <select id="getViewLiSubUWInfosByUnderWriterIds" resultMap="ClientUWDResult">
+        SELECT * FROM (SELECT DISTINCT SUBUNDERWRITERID,SUBUWNAME FROM V_APP_CLIENTUWD
+        WHERE  UNDERWRITERID in
+         <foreach collection="underWriterIds" item="underWriterId" open="(" separator="," close=")">
+             #{underWriterId}
+         </foreach>
+         AND SUBUNDERWRITERID IS NOT NULL order by SUBUNDERWRITERID)
+        ORDER BY SUBUNDERWRITERID DESC
+    </select>
+</mapper>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('check表格页')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "clientuw/core";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list/client",
+		        showSearch: false,
+		        showRefresh: false,
+		        showToggle: false,
+		        showColumns: false,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'clientId',
+					title : '客户ID'
+				},
+				{
+					field : 'cShortName',
+					title : '客户简称'
+				},
+				{
+					field : 'cChineseName',
+					title : '客户中文名'
+				},
+				{
+					field : 'cEnglishName',
+					title : '客户英文名'
+				}]
+            };
+            $.table.init(options);
+        });
+
+		/* 添加用户-选择用户-提交 */
+		function submitHandler() {
+			var clientIds = $.table.selectFirstColumns();
+			var clientNames = $.table.selectColumns("cEnglishName");
+			$.modal.close();
+			// 把选中的值 赋值给父页面的变量
+			parent.$('#clientId').val(clientIds.join());
+			parent.$('#clientName').val(clientNames.join());
+		}
+    </script>
+</body>
+</html>

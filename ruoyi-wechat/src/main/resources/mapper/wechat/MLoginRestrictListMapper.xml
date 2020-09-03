@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wechat.mapper.MLoginRestrictListMapper">
+    
+    <resultMap type="MLoginRestrictList" id="MLoginRestrictListResult">
+        <result property="acskey"    column="acskey"    />
+        <result property="reversalFlag"    column="reversal_flag"    />
+        <result property="bussType"    column="buss_type"    />
+        <result property="uwId"    column="uw_id"    />
+        <result property="subUwId"    column="sub_uw_id"    />
+        <result property="spCate"    column="sp_cate"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="clientShortName"    column="client_short_name"    />
+        <result property="empId"    column="emp_id"    />
+        <result property="isValid"    column="is_valid"    />
+    </resultMap>
+
+    <sql id="selectMLoginRestrictListVo">
+        select acskey, reversal_flag, buss_type, uw_id, sub_uw_id, sp_cate, client_id, client_short_name, emp_id, is_valid from m_login_restrict_list
+    </sql>
+
+    <select id="selectMLoginRestrictListList" parameterType="MLoginRestrictList" resultMap="MLoginRestrictListResult">
+        <include refid="selectMLoginRestrictListVo"/>
+        <where>  
+            <if test="reversalFlag != null  and reversalFlag != ''"> and reversal_flag = #{reversalFlag}</if>
+            <if test="bussType != null  and bussType != ''"> and buss_type = #{bussType}</if>
+            <!--<if test="uwId != null  and uwId != ''"> and uw_id = #{uwId}</if>-->
+            <if test="subUwId != null  and subUwId != ''"> and sub_uw_id = #{subUwId}</if>
+            <if test="spCate != null  and spCate != ''"> and sp_cate = #{spCate}</if>
+            <if test="clientId != null  and clientId != ''"> and client_id = #{clientId}</if>
+            <if test="clientShortName != null  and clientShortName != ''"> and client_short_name like concat('%', #{clientShortName}, '%')</if>
+            <if test="empId != null  and empId != ''"> and emp_id = #{empId}</if>
+            <if test="isValid != null  and isValid != ''"> and is_valid = #{isValid}</if>
+            <if test="underwriterIds != null  and underwriterIds.size > 0">
+                and uw_id in
+                <foreach collection="underwriterIds" item="underwriterId" open="(" separator="," close=")">
+                    #{underwriterId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectMLoginRestrictListById" parameterType="Long" resultMap="MLoginRestrictListResult">
+        <include refid="selectMLoginRestrictListVo"/>
+        where acskey = #{acskey}
+    </select>
+        
+    <insert id="insertMLoginRestrictList" parameterType="MLoginRestrictList" useGeneratedKeys="true" keyProperty="acskey">
+        insert into m_login_restrict_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="reversalFlag != null and reversalFlag != ''">reversal_flag,</if>
+            <if test="bussType != null and bussType != ''">buss_type,</if>
+            <if test="uwId != null and uwId != ''">uw_id,</if>
+            <if test="subUwId != null">sub_uw_id,</if>
+            <if test="spCate != null">sp_cate,</if>
+            <if test="clientId != null and clientId != ''">client_id,</if>
+            <if test="clientShortName != null">client_short_name,</if>
+            <if test="empId != null">emp_id,</if>
+            <if test="isValid != null">is_valid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="reversalFlag != null and reversalFlag != ''">#{reversalFlag},</if>
+            <if test="bussType != null and bussType != ''">#{bussType},</if>
+            <if test="uwId != null and uwId != ''">#{uwId},</if>
+            <if test="subUwId != null">#{subUwId},</if>
+            <if test="spCate != null">#{spCate},</if>
+            <if test="clientId != null and clientId != ''">#{clientId},</if>
+            <if test="clientShortName != null">#{clientShortName},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="isValid != null">#{isValid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMLoginRestrictList" parameterType="MLoginRestrictList">
+        update m_login_restrict_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="reversalFlag != null and reversalFlag != ''">reversal_flag = #{reversalFlag},</if>
+            <if test="bussType != null and bussType != ''">buss_type = #{bussType},</if>
+            <if test="uwId != null and uwId != ''">uw_id = #{uwId},</if>
+            <if test="subUwId != null">sub_uw_id = #{subUwId},</if>
+            <if test="spCate != null">sp_cate = #{spCate},</if>
+            <if test="clientId != null and clientId != ''">client_id = #{clientId},</if>
+            <if test="clientShortName != null">client_short_name = #{clientShortName},</if>
+            <if test="empId != null">emp_id = #{empId},</if>
+            <if test="isValid != null">is_valid = #{isValid},</if>
+        </trim>
+        where acskey = #{acskey}
+    </update>
+
+    <delete id="deleteMLoginRestrictListById" parameterType="Long">
+        delete from m_login_restrict_list where acskey = #{acskey}
+    </delete>
+
+    <delete id="deleteMLoginRestrictListByIds" parameterType="String">
+        delete from m_login_restrict_list where acskey in 
+        <foreach item="acskey" collection="array" open="(" separator="," close=")">
+            #{acskey}
+        </foreach>
+    </delete>
+
+    <select id="selectByClientIdAndUwIdAndBussType" resultMap="MLoginRestrictListResult">
+        <include refid="selectMLoginRestrictListVo"/>
+        where client_id = #{clientId} and uw_id = #{uwId} and buss_type = #{bussType}
+    </select>
+</mapper>

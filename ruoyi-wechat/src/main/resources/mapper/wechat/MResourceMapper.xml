@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wechat.mapper.MResourceMapper">
+    
+    <resultMap type="MResource" id="MResourceResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="name"    column="name"    />
+        <result property="code"    column="code"    />
+        <result property="status"    column="status"    />
+        <result property="zhMsg"    column="zh_msg"    />
+        <result property="enMsg"    column="en_msg"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMResourceVo">
+        select id, pid, name, code, status, zh_msg, en_msg, remark, create_time, update_time from m_resource
+    </sql>
+
+    <select id="selectMResourceList" parameterType="MResource" resultMap="MResourceResult">
+        <include refid="selectMResourceVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="zhMsg != null  and zhMsg != ''"> and zh_msg = #{zhMsg}</if>
+            <if test="enMsg != null  and enMsg != ''"> and en_msg = #{enMsg}</if>
+        </where>
+    </select>
+    
+    <select id="selectMResourceById" parameterType="Long" resultMap="MResourceResult">
+        <include refid="selectMResourceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMResource" parameterType="MResource" useGeneratedKeys="true" keyProperty="id">
+        insert into m_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="code != null">code,</if>
+            <if test="status != null">status,</if>
+            <if test="zhMsg != null">zh_msg,</if>
+            <if test="enMsg != null">en_msg,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="code != null">#{code},</if>
+            <if test="status != null">#{status},</if>
+            <if test="zhMsg != null">#{zhMsg},</if>
+            <if test="enMsg != null">#{enMsg},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMResource" parameterType="MResource">
+        update m_resource
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="zhMsg != null">zh_msg = #{zhMsg},</if>
+            <if test="enMsg != null">en_msg = #{enMsg},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMResourceById" parameterType="Long">
+        delete from m_resource where id = #{id}
+    </delete>
+
+    <delete id="deleteMResourceByIds" parameterType="String">
+        delete from m_resource where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMResourceByUnderwriteId" parameterType="String" resultType="Long">
+        SELECT r.id FROM m_resource r LEFT JOIN m_role_resource rr ON r.id = rr.`resource_id` WHERE rr.`underwrite_id` = #{underwriteId}
+    </select>
+
+    <select id="selectByCode" resultMap="MResourceResult"  parameterType="String">
+        <include refid="selectMResourceVo"/>
+        where code = #{code}
+    </select>
+</mapper>

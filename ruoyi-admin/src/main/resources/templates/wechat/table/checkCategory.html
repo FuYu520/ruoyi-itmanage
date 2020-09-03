@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('check表格页')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "clientuw/core";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list/category",
+		        showSearch: false,
+		        showRefresh: false,
+		        showToggle: false,
+		        showColumns: false,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'code',
+					title : '特殊分类ID'
+				},
+				{
+					field : 'codeName',
+					title : '特殊分类名称'
+				}]
+            };
+            $.table.init(options);
+        });
+
+		/* 添加用户-选择用户-提交 */
+		function submitHandler() {
+			var categoryIds = $.table.selectFirstColumns();
+			var categoryNames = $.table.selectColumns("codeName");
+			$.modal.close();
+			// 把选中的值 赋值给父页面的变量
+			parent.$('#categoryId').val(categoryIds.join());
+			parent.$('#categoryName').val(categoryNames.join());
+		}
+    </script>
+</body>
+</html>

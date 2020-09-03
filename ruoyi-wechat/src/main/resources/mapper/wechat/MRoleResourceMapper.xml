@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wechat.mapper.MRoleResourceMapper">
+    
+    <resultMap type="MRoleResource" id="MRoleResourceResult">
+        <result property="id"    column="id"    />
+        <result property="userType"    column="user_type"    />
+        <result property="resourceId"    column="resource_id"    />
+        <result property="resourceName"    column="name"    />
+        <result property="status"    column="status"    />
+        <result property="underwriteId"    column="underwrite_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="clientId"    column="client_id"    />
+    </resultMap>
+
+    <sql id="selectMRoleResourceVo">
+        select id, user_type, resource_id, status, underwrite_id, create_time, client_id from m_role_resource
+    </sql>
+
+    <select id="selectMRoleResourceList" resultMap="MRoleResourceResult">
+        SELECT rr.id, rr.user_type, rr.resource_id,r.`name`, rr.status, rr.underwrite_id, rr.create_time, rr.client_id FROM m_role_resource rr
+        LEFT JOIN m_resource r ON rr.resource_id = r.`id`
+        <where>
+            <if test="mRoleResource.userType != null  and mRoleResource.userType != ''"> and rr.user_type = #{mRoleResource.userType}</if>
+            <if test="mRoleResource.resourceName != null and mRoleResource.resourceName != ''"> and r.name like concat('%', #{mRoleResource.resourceName}, '%')</if>
+            <if test="mRoleResource.status != null and mRoleResource.status != ''"> and rr.status = #{mRoleResource.status}</if>
+            <if test="underwriterIds != null ">
+                and rr.underwrite_id in
+                <foreach item="underwriteId" collection="underwriterIds" index="index" open="(" separator="," close=")">
+                    #{underwriteId}
+                </foreach>
+            </if>
+            <if test="clientIds != null ">
+                and rr.client_id in
+                <foreach item="clientId" collection="clientIds" index="index" open="(" separator="," close=")">
+                    #{clientId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectMRoleResourceById" parameterType="Long" resultMap="MRoleResourceResult">
+        SELECT rr.id, rr.user_type, rr.resource_id,r.`name` , rr.status, rr.underwrite_id, rr.create_time, rr.client_id FROM m_role_resource rr
+        LEFT JOIN m_resource r ON rr.resource_id = r.`id`
+        where rr.id = #{id}
+    </select>
+        
+    <insert id="insertMRoleResource" parameterType="MRoleResource" useGeneratedKeys="true" keyProperty="id">
+        insert into m_role_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userType != null">user_type,</if>
+            <if test="resourceId != null">resource_id,</if>
+            <if test="status != null">status,</if>
+            <if test="underwriteId != null">underwrite_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="clientId != null">client_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userType != null">#{userType},</if>
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="underwriteId != null">#{underwriteId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="clientId != null">#{clientId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMRoleResource" parameterType="MRoleResource">
+        update m_role_resource
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="resourceId != null">resource_id = #{resourceId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="underwriteId != null">underwrite_id = #{underwriteId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="clientId != null">client_id = #{clientId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMRoleResourceById" parameterType="Long">
+        delete from m_role_resource where id = #{id}
+    </delete>
+
+    <delete id="deleteMRoleResourceByIds" parameterType="String">
+        delete from m_role_resource where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectResourceIdsByUnderwriterIdAndClientId" resultType="Long">
+        select resource_id from m_role_resource where underwrite_id = #{underwriterId} and client_id = #{clientId}
+    </select>
+
+    <select id="selectByUnderwriterIdAndClientId" resultMap="MRoleResourceResult">
+        select id,resource_id,underwrite_id,client_id from m_role_resource where underwrite_id = #{underwriterId} and client_id = #{clientId}
+    </select>
+</mapper>

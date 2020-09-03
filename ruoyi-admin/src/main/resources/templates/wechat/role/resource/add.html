@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增模块白名单')" />
+    <th:block th:include="include :: bootstrap-select-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content row">
+        <form class="form-horizontal m" id="form-resource-add">
+            <div style="display:none;" class="form-group">
+                <label class="col-sm-3 control-label">用户类型：</label>
+                <div class="col-sm-8">
+                    <select id="userType" name="userType" class="form-control m-b">
+                        <option value="02">tpa</option>
+                        <option value="01">mgu</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div style="display: none" class="form-group">
+                <label class="col-sm-3 control-label">资源id：</label>
+                <div class="col-sm-8">
+                    <input id="resourceId" name="resourceId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">资源名称：</label>
+                <div class="col-sm-8  input-group">
+                    <input id="resourceName" name="resourceName" readonly="true" onclick="selectResourceTree()" required class="form-control" type="text">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div>
+                    <select class="selectpicker" id="status"  name="status">
+                        <option value="1">启用</option>
+                        <option value="2">禁用</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: none" class="form-group">
+                <label class="col-sm-3 control-label">承保商id：</label>
+                <div class="col-sm-8">
+                    <input id="underwriteId" name="underwriteId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">承保商名称：</label>
+                <div class="col-sm-8 input-group">
+                    <input id="underwriteName" name="underwriteName" class="form-control" readonly="true" type="text">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="selectRadioUW()">Select</button>
+                    </span>
+                </div>
+            </div>
+            <div style="display: none" class="form-group">
+                <label class="col-sm-3 control-label">公司ID：</label>
+                <div class="col-sm-8">
+                    <input id="clientId" name="clientId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">公司名称：</label>
+                <div class="col-sm-8 input-group">
+                    <input id="clientName" name="clientName" class="form-control" readonly="true" type="text">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="selectRadioClient()">Select</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-select-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "wechat/role/resource"
+        $("#form-resource-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                var userType =$('#userType option:selected').val();
+                var underwriteId = $('#underwriteId').val();
+                var resourceIds = $('#resourceId').val();
+                var clientId = $('#clientId').val();
+                var status = $('#status option:selected').val();
+                var data = {
+                    "userType": userType,
+                    "resourceIds": resourceIds,
+                    "status": status,
+                    "underwriteId": underwriteId,
+                    "clientId": clientId
+                };
+                $.operate.save(prefix + "/add", data);
+            }
+        }
+
+        var modalUrl = ctx + "module/dialog/table";
+
+        //选择承保商
+        function selectRadioUW() {
+            $.modal.open("选择承保商", modalUrl + "/radioUW");
+        }
+        //选择客户
+        function selectRadioClient() {
+            $.modal.open("选择客户", modalUrl + "/radioClient");
+        }
+
+        /** 模块白名单- 新增 - 选中部门树 */
+        function selectResourceTree() {
+            var resourceIds = $("#resourceId").val();
+            var options = {
+                title: '选择资源',
+                width: "380",
+                height: "400",
+                url: modalUrl + "/resourceAddTree?resourceIds=" + resourceIds,
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        //点确认-回调
+        function doSubmit(index, layero){
+            //获取树
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            //获取树选中的值
+            var checkedNodes = tree.getCheckedNodes();
+            var resourceNames = [];
+            var resourceIds = [];
+            checkedNodes.forEach(function (item) {
+                resourceNames.push(item.name);
+                resourceIds.push(item.id);
+            });
+            $("#resourceName").val(resourceNames);
+            $("#resourceId").val(resourceIds);
+            layer.close(index);
+        }
+    </script>
+</body>
+</html>

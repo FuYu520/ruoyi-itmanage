@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wechat.mapper.MMobileProjectDetailWxMapper">
+    
+    <resultMap type="MMobileProjectDetailWx" id="MMobileProjectDetailWxResult">
+        <result property="acskey"    column="acskey"    />
+        <result property="projectid"    column="projectid"    />
+        <result property="number"    column="number"    />
+        <result property="cdesrc"    column="cdesrc"    />
+        <result property="edesrc"    column="edesrc"    />
+        <result property="status"    column="status"    />
+        <result property="adddate"    column="adddate"    />
+        <result property="updatedate"    column="updatedate"    />
+        <result property="AAE011"    column="AAE011"    />
+        <result property="AAE017"    column="AAE017"    />
+        <result property="AAE036"    column="AAE036"    />
+        <result property="AAE012"    column="AAE012"    />
+        <result property="AAE018"    column="AAE018"    />
+        <result property="AAE037"    column="AAE037"    />
+        <result property="priority"    column="priority"    />
+    </resultMap>
+
+    <sql id="selectMMobileProjectDetailWxVo">
+        select acskey, projectid, number, cdesrc, edesrc, status, adddate, updatedate, AAE011, AAE017, AAE036, AAE012, AAE018, AAE037, priority from m_mobile_project_detail_wx
+    </sql>
+
+    <select id="selectMMobileProjectDetailWxList" parameterType="MMobileProjectDetailWx" resultMap="MMobileProjectDetailWxResult">
+        <include refid="selectMMobileProjectDetailWxVo"/>
+        <where>  
+            <if test="projectid != null "> and projectid = #{projectid}</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="cdesrc != null  and cdesrc != ''"> and cdesrc = #{cdesrc}</if>
+            <if test="edesrc != null  and edesrc != ''"> and edesrc = #{edesrc}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="adddate != null "> and adddate = #{adddate}</if>
+            <if test="updatedate != null "> and updatedate = #{updatedate}</if>
+            <if test="AAE011 != null  and AAE011 != ''"> and AAE011 = #{AAE011}</if>
+            <if test="AAE017 != null  and AAE017 != ''"> and AAE017 = #{AAE017}</if>
+            <if test="AAE036 != null "> and AAE036 = #{AAE036}</if>
+            <if test="AAE012 != null  and AAE012 != ''"> and AAE012 = #{AAE012}</if>
+            <if test="AAE018 != null  and AAE018 != ''"> and AAE018 = #{AAE018}</if>
+            <if test="AAE037 != null "> and AAE037 = #{AAE037}</if>
+            <if test="priority != null  and priority != ''"> and priority = #{priority}</if>
+        </where>
+    </select>
+    
+    <select id="selectMMobileProjectDetailWxById" parameterType="Long" resultMap="MMobileProjectDetailWxResult">
+        <include refid="selectMMobileProjectDetailWxVo"/>
+        where acskey = #{acskey}
+    </select>
+        
+    <insert id="insertMMobileProjectDetailWx" parameterType="MMobileProjectDetailWx" useGeneratedKeys="true" keyProperty="acskey">
+        insert into m_mobile_project_detail_wx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectid != null">projectid,</if>
+            <if test="number != null">number,</if>
+            <if test="cdesrc != null">cdesrc,</if>
+            <if test="edesrc != null">edesrc,</if>
+            <if test="status != null">status,</if>
+            <if test="adddate != null">adddate,</if>
+            <if test="updatedate != null">updatedate,</if>
+            <if test="AAE011 != null">AAE011,</if>
+            <if test="AAE017 != null">AAE017,</if>
+            <if test="AAE036 != null">AAE036,</if>
+            <if test="AAE012 != null">AAE012,</if>
+            <if test="AAE018 != null">AAE018,</if>
+            <if test="AAE037 != null">AAE037,</if>
+            <if test="priority != null and priority != ''">priority,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectid != null">#{projectid},</if>
+            <if test="number != null">#{number},</if>
+            <if test="cdesrc != null">#{cdesrc},</if>
+            <if test="edesrc != null">#{edesrc},</if>
+            <if test="status != null">#{status},</if>
+            <if test="adddate != null">#{adddate},</if>
+            <if test="updatedate != null">#{updatedate},</if>
+            <if test="AAE011 != null">#{AAE011},</if>
+            <if test="AAE017 != null">#{AAE017},</if>
+            <if test="AAE036 != null">#{AAE036},</if>
+            <if test="AAE012 != null">#{AAE012},</if>
+            <if test="AAE018 != null">#{AAE018},</if>
+            <if test="AAE037 != null">#{AAE037},</if>
+            <if test="priority != null and priority != ''">#{priority},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMMobileProjectDetailWx" parameterType="MMobileProjectDetailWx">
+        update m_mobile_project_detail_wx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectid != null">projectid = #{projectid},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="cdesrc != null">cdesrc = #{cdesrc},</if>
+            <if test="edesrc != null">edesrc = #{edesrc},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="adddate != null">adddate = #{adddate},</if>
+            <if test="updatedate != null">updatedate = #{updatedate},</if>
+            <if test="AAE011 != null">AAE011 = #{AAE011},</if>
+            <if test="AAE017 != null">AAE017 = #{AAE017},</if>
+            <if test="AAE036 != null">AAE036 = #{AAE036},</if>
+            <if test="AAE012 != null">AAE012 = #{AAE012},</if>
+            <if test="AAE018 != null">AAE018 = #{AAE018},</if>
+            <if test="AAE037 != null">AAE037 = #{AAE037},</if>
+            <if test="priority != null and priority != ''">priority = #{priority},</if>
+        </trim>
+        where acskey = #{acskey}
+    </update>
+
+    <delete id="deleteMMobileProjectDetailWxById" parameterType="Long">
+        delete from m_mobile_project_detail_wx where acskey = #{acskey}
+    </delete>
+
+    <delete id="deleteMMobileProjectDetailWxByIds" parameterType="String">
+        delete from m_mobile_project_detail_wx where acskey in 
+        <foreach item="acskey" collection="array" open="(" separator="," close=")">
+            #{acskey}
+        </foreach>
+    </delete>
+
+</mapper>

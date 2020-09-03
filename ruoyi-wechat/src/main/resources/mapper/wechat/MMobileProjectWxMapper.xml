@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wechat.mapper.MMobileProjectWxMapper">
+    
+    <resultMap type="MMobileProjectWx" id="MMobileProjectWxResult">
+        <result property="acskey"    column="ACSKEY"    />
+        <result property="underwriterId"    column="underwriterid"    />
+        <result property="underwriterName"    column="underwritername"    />
+        <result property="subunderwriterId"    column="Subunderwriterid"    />
+        <result property="subuwName"    column="subuwname"    />
+        <result property="categoryId"    column="CategoryID"    />
+        <result property="categoryName"    column="categoryName"    />
+        <result property="clientId"    column="client"    />
+        <result property="clientName"    column="clientname"    />
+        <result property="chomepagetitle"    column="chomepagetitle"    />
+        <result property="ehomepagetitle"    column="ehomepagetitle"    />
+        <result property="cintroduction"    column="cintroduction"    />
+        <result property="eintroduction"    column="eintroduction"    />
+        <result property="caddress"    column="caddress"    />
+        <result property="eaddress"    column="eaddress"    />
+        <result property="email"    column="email"    />
+        <result property="status"    column="status"    />
+        <result property="adddate"    column="adddate"    />
+        <result property="updatedate"    column="updatedate"    />
+        <result property="AAE011"    column="AAE011"    />
+        <result property="AAE017"    column="AAE017"    />
+        <result property="AAE036"    column="AAE036"    />
+        <result property="AAE012"    column="AAE012"    />
+        <result property="AAE018"    column="AAE018"    />
+        <result property="AAE037"    column="AAE037"    />
+    </resultMap>
+
+    <sql id="selectMMobileProjectWxVo">
+        select ACSKEY, underwriterid, underwritername, Subunderwriterid, subuwname, CategoryID, categoryName, client, clientname, chomepagetitle, ehomepagetitle, cintroduction, eintroduction, caddress, eaddress, email, status, adddate, updatedate, AAE011, AAE017, AAE036, AAE012, AAE018, AAE037 from m_mobile_project_wx
+    </sql>
+
+    <select id="selectMMobileProjectWxList" parameterType="MMobileProjectWx" resultMap="MMobileProjectWxResult">
+        <include refid="selectMMobileProjectWxVo"/>
+        <where>  
+            <if test="underwriterId != null  and underwriterId != ''"> and underwriterid = #{underwriterId}</if>
+            <if test="underwriterName != null  and underwriterName != ''"> and underwritername like concat('%', #{underwriterName}, '%')</if>
+            <if test="subunderwriterId != null  and subunderwriterId != ''"> and Subunderwriterid = #{subunderwriterId}</if>
+            <if test="subuwName != null  and subuwName != ''"> and subuwname like concat('%', #{subuwName}, '%')</if>
+            <if test="categoryId != null  and categoryId != ''"> and CategoryID = #{categoryId}</if>
+            <if test="categoryName != null  and categoryName != ''"> and categoryName like concat('%', #{categoryName}, '%')</if>
+            <if test="clientId != null  and clientId != ''"> and client = #{clientId}</if>
+            <if test="clientName != null  and clientName != ''"> and clientname like concat('%', #{clientName}, '%')</if>
+            <if test="chomepagetitle != null  and chomepagetitle != ''"> and chomepagetitle = #{chomepagetitle}</if>
+            <if test="ehomepagetitle != null  and ehomepagetitle != ''"> and ehomepagetitle = #{ehomepagetitle}</if>
+            <if test="cintroduction != null  and cintroduction != ''"> and cintroduction = #{cintroduction}</if>
+            <if test="eintroduction != null  and eintroduction != ''"> and eintroduction = #{eintroduction}</if>
+            <if test="caddress != null  and caddress != ''"> and caddress = #{caddress}</if>
+            <if test="eaddress != null  and eaddress != ''"> and eaddress = #{eaddress}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="adddate != null "> and adddate = #{adddate}</if>
+            <if test="updatedate != null "> and updatedate = #{updatedate}</if>
+            <if test="AAE011 != null  and AAE011 != ''"> and AAE011 = #{AAE011}</if>
+            <if test="AAE017 != null  and AAE017 != ''"> and AAE017 = #{AAE017}</if>
+            <if test="AAE036 != null "> and AAE036 = #{AAE036}</if>
+            <if test="AAE012 != null  and AAE012 != ''"> and AAE012 = #{AAE012}</if>
+            <if test="AAE018 != null  and AAE018 != ''"> and AAE018 = #{AAE018}</if>
+            <if test="AAE037 != null "> and AAE037 = #{AAE037}</if>
+        </where>
+    </select>
+    
+    <select id="selectMMobileProjectWxById" parameterType="Long" resultMap="MMobileProjectWxResult">
+        <include refid="selectMMobileProjectWxVo"/>
+        where ACSKEY = #{acskey}
+    </select>
+        
+    <insert id="insertMMobileProjectWx" parameterType="MMobileProjectWx" useGeneratedKeys="true" keyProperty="ACSKEY">
+        insert into m_mobile_project_wx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="underwriterId != null">underwriterid,</if>
+            <if test="underwriterName != null">underwritername,</if>
+            <if test="subunderwriterId != null">Subunderwriterid,</if>
+            <if test="subuwName != null">subuwname,</if>
+            <if test="categoryId != null">CategoryID,</if>
+            <if test="categoryName != null">categoryName,</if>
+            <if test="clientId != null">client,</if>
+            <if test="clientName != null">clientname,</if>
+            <if test="chomepagetitle != null">chomepagetitle,</if>
+            <if test="ehomepagetitle != null">ehomepagetitle,</if>
+            <if test="cintroduction != null">cintroduction,</if>
+            <if test="eintroduction != null">eintroduction,</if>
+            <if test="caddress != null">caddress,</if>
+            <if test="eaddress != null">eaddress,</if>
+            <if test="email != null">email,</if>
+            <if test="status != null">status,</if>
+            <if test="adddate != null">adddate,</if>
+            <if test="updatedate != null">updatedate,</if>
+            <if test="AAE011 != null">AAE011,</if>
+            <if test="AAE017 != null">AAE017,</if>
+            <if test="AAE036 != null">AAE036,</if>
+            <if test="AAE012 != null">AAE012,</if>
+            <if test="AAE018 != null">AAE018,</if>
+            <if test="AAE037 != null">AAE037,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="underwriterId != null">#{underwriterId},</if>
+            <if test="underwriterName != null">#{underwriterName},</if>
+            <if test="subunderwriterId != null">#{subunderwriterId},</if>
+            <if test="subuwName != null">#{subuwName},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="categoryName != null">#{categoryName},</if>
+            <if test="clientId != null">#{clientId},</if>
+            <if test="clientName != null">#{clientName},</if>
+            <if test="chomepagetitle != null">#{chomepagetitle},</if>
+            <if test="ehomepagetitle != null">#{ehomepagetitle},</if>
+            <if test="cintroduction != null">#{cintroduction},</if>
+            <if test="eintroduction != null">#{eintroduction},</if>
+            <if test="caddress != null">#{caddress},</if>
+            <if test="eaddress != null">#{eaddress},</if>
+            <if test="email != null">#{email},</if>
+            <if test="status != null">#{status},</if>
+            <if test="adddate != null">#{adddate},</if>
+            <if test="updatedate != null">#{updatedate},</if>
+            <if test="AAE011 != null">#{AAE011},</if>
+            <if test="AAE017 != null">#{AAE017},</if>
+            <if test="AAE036 != null">#{AAE036},</if>
+            <if test="AAE012 != null">#{AAE012},</if>
+            <if test="AAE018 != null">#{AAE018},</if>
+            <if test="AAE037 != null">#{AAE037},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMMobileProjectWx" parameterType="MMobileProjectWx">
+        update m_mobile_project_wx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="underwriterId != null">underwriterid = #{underwriterId},</if>
+            <if test="underwriterName != null">underwritername = #{underwriterName},</if>
+            <if test="subunderwriterId != null">Subunderwriterid = #{subunderwriterId},</if>
+            <if test="subuwName != null">subuwname = #{subuwName},</if>
+            <if test="categoryId != null">CategoryID = #{categoryId},</if>
+            <if test="categoryName != null">categoryName = #{categoryName},</if>
+            <if test="clientId != null">client = #{clientId},</if>
+            <if test="clientName != null">clientname = #{clientName},</if>
+            <if test="chomepagetitle != null">chomepagetitle = #{chomepagetitle},</if>
+            <if test="ehomepagetitle != null">ehomepagetitle = #{ehomepagetitle},</if>
+            <if test="cintroduction != null">cintroduction = #{cintroduction},</if>
+            <if test="eintroduction != null">eintroduction = #{eintroduction},</if>
+            <if test="caddress != null">caddress = #{caddress},</if>
+            <if test="eaddress != null">eaddress = #{eaddress},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="adddate != null">adddate = #{adddate},</if>
+            <if test="updatedate != null">updatedate = #{updatedate},</if>
+            <if test="AAE011 != null">AAE011 = #{AAE011},</if>
+            <if test="AAE017 != null">AAE017 = #{AAE017},</if>
+            <if test="AAE036 != null">AAE036 = #{AAE036},</if>
+            <if test="AAE012 != null">AAE012 = #{AAE012},</if>
+            <if test="AAE018 != null">AAE018 = #{AAE018},</if>
+            <if test="AAE037 != null">AAE037 = #{AAE037},</if>
+        </trim>
+        where ACSKEY = #{acskey}
+    </update>
+
+    <delete id="deleteMMobileProjectWxById" parameterType="Long">
+        delete from m_mobile_project_wx where ACSKEY = #{acskey}
+    </delete>
+
+    <delete id="deleteMMobileProjectWxByIds" parameterType="String">
+        delete from m_mobile_project_wx where ACSKEY in 
+        <foreach item="ACSKEY" collection="array" open="(" separator="," close=")">
+            #{acskey}
+        </foreach>
+    </delete>
+
+</mapper>
