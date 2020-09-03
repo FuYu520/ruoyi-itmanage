@@ -27,6 +27,7 @@ public interface IMMobileProjectDetailWxService
      */
     public List<MMobileProjectDetailWx> selectMMobileProjectDetailWxList(MMobileProjectDetailWx mMobileProjectDetailWx);
 
+
     /**
      * 新增客服热线配置
      * 

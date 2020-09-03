@@ -6,102 +6,27 @@
 <body class="gray-bg">
      <div class="container-div">
         <div class="row">
-            <div class="col-sm-12 search-collapse">
-                <form id="formId">
-                    <div class="select-list">
-                        <ul>
-                            <li>
-                                <label>承保商配置表关联主键：</label>
-                                <input type="text" name="projectid"/>
-                            </li>
-                            <li>
-                                <label>号码：</label>
-                                <input type="text" name="number"/>
-                            </li>
-                            <li>
-                                <label>中文说明：</label>
-                                <input type="text" name="cdesrc"/>
-                            </li>
-                            <li>
-                                <label>英文说明：</label>
-                                <input type="text" name="edesrc"/>
-                            </li>
-                            <li>
-                                <label>类型：</label>
-                                <select name="status">
-                                    <option value="">所有</option>
-                                    <option value="-1">代码生成请选择字典属性</option>
-                                </select>
-                            </li>
-                            <li class="select-time">
-                                <label>创建时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdddate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAdddate]"/>
-                            </li>
-                            <li class="select-time">
-                                <label>修改时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdatedate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdatedate]"/>
-                            </li>
-                            <li>
-                                <label>null：</label>
-                                <input type="text" name="AAE011"/>
-                            </li>
-                            <li>
-                                <label>null：</label>
-                                <input type="text" name="AAE017"/>
-                            </li>
-                            <li class="select-time">
-                                <label>null：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAAE036]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAAE036]"/>
-                            </li>
-                            <li>
-                                <label>null：</label>
-                                <input type="text" name="AAE012"/>
-                            </li>
-                            <li>
-                                <label>null：</label>
-                                <input type="text" name="AAE018"/>
-                            </li>
-                            <li class="select-time">
-                                <label>null：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAAE037]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAAE037]"/>
-                            </li>
-                            <li>
-                                <label>优先级：</label>
-                                <input type="text" name="priority"/>
-                            </li>
-                            <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
-            </div>
-
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="wechat:wx:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="wechat:mobile:detail:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="wechat:wx:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="wechat:mobile:detail:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="wechat:wx:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="wechat:mobile:detail:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="wechat:wx:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="wechat:mobile:detail:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-5 col-sm-10">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+                </div>
             </div>
         </div>
     </div>
@@ -111,10 +36,12 @@
         var removeFlag = [[${@permission.hasPermi('wechat:mobile:detail:remove')}]];
         var prefix = ctx + "wechat/mobile/detail";
 
+        var projectId = [[${projectId}]];
+
         $(function() {
             var options = {
-                url: prefix + "/list",
-                createUrl: prefix + "/add",
+                url: prefix + "/list/" + projectId,
+                createUrl: prefix + "/add/" + projectId,
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
@@ -124,12 +51,13 @@
                 },
                 {
                     field: 'acskey',
-                    title: 'ID',
+                    title: '主键id',
                     visible: false
                 },
                 {
                     field: 'projectid',
-                    title: '承保商配置表关联主键'
+                    title: '承包商配置关联Id',
+                    visible: false
                 },
                 {
                     field: 'number',
@@ -145,39 +73,20 @@
                 },
                 {
                     field: 'status',
-                    title: '类型'
+                    title: '类型',
+                    formatter: function (value) {
+                        return value == '1' ? "热线":"号码";
+                    }
                 },
                 {
                     field: 'adddate',
-                    title: '创建时间'
+                    title: '创建时间',
+                    visible: false
                 },
                 {
                     field: 'updatedate',
-                    title: '修改时间'
-                },
-                {
-                    field: 'AAE011',
-                    title: 'null'
-                },
-                {
-                    field: 'AAE017',
-                    title: 'null'
-                },
-                {
-                    field: 'AAE036',
-                    title: 'null'
-                },
-                {
-                    field: 'AAE012',
-                    title: 'null'
-                },
-                {
-                    field: 'AAE018',
-                    title: 'null'
-                },
-                {
-                    field: 'AAE037',
-                    title: 'null'
+                    title: '修改时间',
+                    visible: false
                 },
                 {
                     field: 'priority',

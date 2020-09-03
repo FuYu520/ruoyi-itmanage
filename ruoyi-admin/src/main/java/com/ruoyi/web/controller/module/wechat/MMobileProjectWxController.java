@@ -27,18 +27,16 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @Controller
 @RequestMapping("/wechat/mobile")
-public class MMobileProjectWxController extends BaseController
-{
-    private String prefix = "wechat/mobile";
+public class MMobileProjectWxController extends BaseController {
+    private String prefix = "wechat/mobile" ;
 
     @Autowired
     private IMMobileProjectWxService mMobileProjectWxService;
 
     @RequiresPermissions("wechat:mobile:view")
     @GetMapping()
-    public String wx()
-    {
-        return prefix + "/mobile";
+    public String wx() {
+        return prefix + "/mobile" ;
     }
 
     /**
@@ -47,8 +45,7 @@ public class MMobileProjectWxController extends BaseController
     @RequiresPermissions("wechat:mobile:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(MMobileProjectWx mMobileProjectWx)
-    {
+    public TableDataInfo list(MMobileProjectWx mMobileProjectWx) {
         startPage();
         List<MMobileProjectWx> list = mMobileProjectWxService.selectMMobileProjectWxList(mMobileProjectWx);
         return getDataTable(list);
@@ -61,8 +58,7 @@ public class MMobileProjectWxController extends BaseController
     @Log(title = "承保商配置", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(MMobileProjectWx mMobileProjectWx)
-    {
+    public AjaxResult export(MMobileProjectWx mMobileProjectWx) {
         List<MMobileProjectWx> list = mMobileProjectWxService.selectMMobileProjectWxList(mMobileProjectWx);
         ExcelUtil<MMobileProjectWx> util = new ExcelUtil<MMobileProjectWx>(MMobileProjectWx.class);
         return util.exportExcel(list, "wx");
@@ -72,9 +68,8 @@ public class MMobileProjectWxController extends BaseController
      * 新增承保商配置
      */
     @GetMapping("/add")
-    public String add()
-    {
-        return prefix + "/add";
+    public String add() {
+        return prefix + "/add" ;
     }
 
     /**
@@ -84,8 +79,7 @@ public class MMobileProjectWxController extends BaseController
     @Log(title = "承保商配置", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(MMobileProjectWx mMobileProjectWx)
-    {
+    public AjaxResult addSave(MMobileProjectWx mMobileProjectWx) {
         return toAjax(mMobileProjectWxService.insertMMobileProjectWx(mMobileProjectWx));
     }
 
@@ -93,11 +87,10 @@ public class MMobileProjectWxController extends BaseController
      * 修改承保商配置
      */
     @GetMapping("/edit/{ACSKEY}")
-    public String edit(@PathVariable("ACSKEY") Long ACSKEY, ModelMap mmap)
-    {
+    public String edit(@PathVariable("ACSKEY") Long ACSKEY, ModelMap mmap) {
         MMobileProjectWx mMobileProjectWx = mMobileProjectWxService.selectMMobileProjectWxById(ACSKEY);
         mmap.put("mMobileProjectWx", mMobileProjectWx);
-        return prefix + "/edit";
+        return prefix + "/edit" ;
     }
 
     /**
@@ -107,8 +100,7 @@ public class MMobileProjectWxController extends BaseController
     @Log(title = "承保商配置", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(MMobileProjectWx mMobileProjectWx)
-    {
+    public AjaxResult editSave(MMobileProjectWx mMobileProjectWx) {
         return toAjax(mMobileProjectWxService.updateMMobileProjectWx(mMobileProjectWx));
     }
 
@@ -117,10 +109,9 @@ public class MMobileProjectWxController extends BaseController
      */
     @RequiresPermissions("wechat:mobile:remove")
     @Log(title = "承保商配置", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(mMobileProjectWxService.deleteMMobileProjectWxByIds(ids));
     }
 }

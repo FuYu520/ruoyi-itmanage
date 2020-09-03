@@ -1,6 +1,8 @@
 package com.ruoyi.wechat.controller;
 
 import java.util.List;
+
+import com.ruoyi.wechat.domain.MMobileProjectWx;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,9 +37,10 @@ public class MMobileProjectDetailWxController extends BaseController
     private IMMobileProjectDetailWxService mMobileProjectDetailWxService;
 
     @RequiresPermissions("wechat:mobile:detail:view")
-    @GetMapping()
-    public String wx()
+    @GetMapping("/{projectId}")
+    public String wx(@PathVariable("projectId") Long projectId, ModelMap mmap)
     {
+        mmap.put("projectId", projectId);
         return prefix + "/detail";
     }
 
@@ -45,11 +48,13 @@ public class MMobileProjectDetailWxController extends BaseController
      * 查询客服热线配置列表
      */
     @RequiresPermissions("wechat:mobile:detail:list")
-    @PostMapping("/list")
+    @PostMapping("/list/{projectId}")
     @ResponseBody
-    public TableDataInfo list(MMobileProjectDetailWx mMobileProjectDetailWx)
+    public TableDataInfo list(@PathVariable("projectId") Long projectId)
     {
         startPage();
+        MMobileProjectDetailWx mMobileProjectDetailWx = new MMobileProjectDetailWx();
+        mMobileProjectDetailWx.setProjectid(projectId);
         List<MMobileProjectDetailWx> list = mMobileProjectDetailWxService.selectMMobileProjectDetailWxList(mMobileProjectDetailWx);
         return getDataTable(list);
     }
@@ -71,9 +76,10 @@ public class MMobileProjectDetailWxController extends BaseController
     /**
      * 新增客服热线配置
      */
-    @GetMapping("/add")
-    public String add()
+    @GetMapping("/add/{projectId}")
+    public String add(@PathVariable("projectId") Long projectId, ModelMap mmap)
     {
+        mmap.put("projectId", projectId);
         return prefix + "/add";
     }
 
