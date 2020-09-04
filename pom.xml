@@ -166,7 +166,7 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-            
+
             <!-- 定时任务-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
@@ -236,7 +236,69 @@
 
     </dependencies>
 
+    <!--动态选择环境-->
+    <profiles>
+        <!-- 开发环境 -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <spring.profile.active>dev</spring.profile.active><!-- 之前写的@env@就是通过这里的配置切换环境 -->
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault><!-- 指定缺省环境 -->
+            </activation>
+        </profile>
+        <!-- 测试环境 -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <spring.profile.active>test</spring.profile.active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profile.active>prod</spring.profile.active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+    <!--编译设置-->
+    <!--https://www.cnblogs.com/gongnol/p/9667010.html-->
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <!--用于包含或者排除某些资源文件-->
+        <resources>
+            <resource>
+                <!--构建的结果所在的路径，默认为${basedir}/target目录-->
+                <directory>src/main/resources</directory>
+                <!--一组文件名的匹配模式，被匹配的资源文件将被构建过程处理-->
+                <includes>
+                    <include>application-${spring.profile.active}.yml</include>
+                    <include>application.yml</include>
+                    <include>generator.yml</include>
+                    <include>ehcache/**</include>
+                    <include>mybatis/**</include>
+                    <include>templates/**</include>
+                    <include>static/**</include>
+                    <include>mapper/**</include>
+                    <include>vm/**</include>
+                </includes>
+                <!--一组文件名的匹配模式，被匹配的资源文件将被构建过程忽略。同时也被includes的文件依然被忽略。-->
+                <excludes>
+<!--                    <exclude>static/**</exclude>-->
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -248,9 +310,25 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <!-- 需要过滤掉不需要编码的文件-->
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>otf</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
+    <!--https://www.jb51.net/article/189882.htm-->
     <repositories>
         <repository>
             <id>public</id>
@@ -262,6 +340,7 @@
         </repository>
     </repositories>
 
+    <!--pluginRepositories中的repository是以pluginRepository表示的，它表示插件从什么库地址下载。-->
     <pluginRepositories>
         <pluginRepository>
             <id>public</id>
@@ -275,5 +354,4 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 </project>

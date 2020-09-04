@@ -52,8 +52,8 @@ public class DruidConfig
      * @return
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave1")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave1", name = "enabled", havingValue = "true")
+    @ConfigurationProperties("spring.datasource.druid.manage")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.manage", name = "enabled", havingValue = "true")
     public DataSource manageDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
@@ -66,8 +66,8 @@ public class DruidConfig
      * @return
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave2")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave2", name = "enabled", havingValue = "true")
+    @ConfigurationProperties("spring.datasource.druid.mguquery")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.mguquery", name = "enabled", havingValue = "true")
     public DataSource mguQueryDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
@@ -80,8 +80,8 @@ public class DruidConfig
      * @return
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave3")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave3", name = "enabled", havingValue = "true")
+    @ConfigurationProperties("spring.datasource.druid.appointment")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.appointment", name = "enabled", havingValue = "true")
     public DataSource appointmentDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
@@ -95,8 +95,8 @@ public class DruidConfig
      * ConditionalOnProperty注解 控制自动配置是否生效
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave4")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave4", name = "enabled", havingValue = "true")
+    @ConfigurationProperties("spring.datasource.druid.wechat")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.wechat", name = "enabled", havingValue = "true")
     public DataSource wechatDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
@@ -109,8 +109,8 @@ public class DruidConfig
      * @return
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave5")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave5", name = "enabled", havingValue = "true")
+    @ConfigurationProperties("spring.datasource.druid.ipmi")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.ipmi", name = "enabled", havingValue = "true")
     public DataSource ipmiDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
@@ -123,9 +123,9 @@ public class DruidConfig
      * @return
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave6")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave6", name = "enabled", havingValue = "true")
-    public DataSource mymshDataSource(DruidProperties druidProperties)
+    @ConfigurationProperties("spring.datasource.druid.mymsh")//报红原因是yml文件驼峰命名缘故
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.mymsh", name = "enabled", havingValue = "true")
+    public DataSource myMshDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         return druidProperties.dataSource(dataSource);
@@ -137,9 +137,9 @@ public class DruidConfig
      * @return
      */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave7")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave7", name = "enabled", havingValue = "true")
-    public DataSource mymshMguDataSource(DruidProperties druidProperties)
+    @ConfigurationProperties("spring.datasource.druid.mymshggu")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.mymshggu", name = "enabled", havingValue = "true")
+    public DataSource myMshMguDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         return druidProperties.dataSource(dataSource);
@@ -164,9 +164,9 @@ public class DruidConfig
         //IPMI库
         setDataSource(targetDataSources, DataSourceType.IPMI.name(), "ipmiDataSource");
         //MGU查询库--Web
-        setDataSource(targetDataSources, DataSourceType.MYMSH.name(), "mymshDataSource");
+        setDataSource(targetDataSources, DataSourceType.MYMSH.name(), "myMshDataSource");
         //MyMshMGU
-        setDataSource(targetDataSources, DataSourceType.MYMSHMGU.name(), "mymshMguDataSource");
+        setDataSource(targetDataSources, DataSourceType.MYMSHMGU.name(), "myMshMguDataSource");
         return new DynamicDataSource(masterDataSource, targetDataSources);
     }
 

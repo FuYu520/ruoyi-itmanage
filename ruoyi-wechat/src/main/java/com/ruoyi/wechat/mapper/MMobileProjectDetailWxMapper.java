@@ -1,6 +1,9 @@
 package com.ruoyi.wechat.mapper;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.wechat.domain.MMobileProjectDetailWx;
 
 /**
@@ -9,6 +12,7 @@ import com.ruoyi.wechat.domain.MMobileProjectDetailWx;
  * @author FuYu
  * @date 2020-09-02
  */
+@DataSource(value = DataSourceType.WECHAT)
 public interface MMobileProjectDetailWxMapper 
 {
     /**

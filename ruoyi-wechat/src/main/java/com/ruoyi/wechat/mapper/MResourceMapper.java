@@ -2,6 +2,8 @@ package com.ruoyi.wechat.mapper;
 
 import java.util.List;
 
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.wechat.domain.MResource;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,6 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2020-08-24
  */
+@DataSource(value = DataSourceType.WECHAT)
 public interface MResourceMapper 
 {
     /**
