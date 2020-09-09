@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('登录限制列表')" />
+    <th:block th:include="include :: beauty-js" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -90,6 +91,13 @@
             </div>
         </div>
     </div>
+     <script type="text/javascript">
+         L2Dwidget.init({ "model": { jsonPath:
+                     "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json",
+                 "scale": 1 }, "display": { "position": "right", "width": 150, "height": 300,
+                 "hOffset": 0, "vOffset": -20 }, "mobile": { "show": true, "scale": 0.5 },
+             "react": { "opacityDefault": 0.7, "opacityOnHover": 0.2 } });
+     </script>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('wechat:restrict:edit')}]];

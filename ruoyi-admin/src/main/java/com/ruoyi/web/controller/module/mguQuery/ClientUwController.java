@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -36,9 +37,9 @@ public class ClientUwController extends BaseController {
      */
     @PostMapping("/list/uw")
     @ResponseBody
-    public TableDataInfo listUW() {
+    public TableDataInfo listUW(ClientUWD clientUWD) {
         startPage();
-        List<ClientUWD> resultList = clientUwService.getViewLiUnderWriterInfos();
+        List<ClientUWD> resultList = clientUwService.getViewLiUnderWriterInfos(clientUWD);
         return getDataTable(resultList);
     }
 
@@ -47,9 +48,9 @@ public class ClientUwController extends BaseController {
      */
     @PostMapping("/list/subuw")
     @ResponseBody
-    public TableDataInfo listSubUW(@Param("underWriterIds") String underWriterIds) {
+    public TableDataInfo listSubUW(@RequestParam("underWriterIds") String underWriterIds, @RequestParam(value = "searchValue", required = false) String searchValue) {
         startPage();
-        List<ClientUWD> resultList = clientUwService.getViewLiSubUWInfos(underWriterIds);
+        List<ClientUWD> resultList = clientUwService.getViewLiSubUWInfos(underWriterIds, searchValue);
         return getDataTable(resultList);
     }
 
@@ -58,9 +59,9 @@ public class ClientUwController extends BaseController {
      */
     @PostMapping("/list/client")
     @ResponseBody
-    public TableDataInfo listClient() {
+    public TableDataInfo listClient(ClientUWD clientUWD) {
         startPage();
-        List<ClientUWD> resultList = clientUwService.getViewLiClientBaseInfos();
+        List<ClientUWD> resultList = clientUwService.getViewLiClientBaseInfos(clientUWD);
         return getDataTable(resultList);
     }
 
@@ -69,9 +70,8 @@ public class ClientUwController extends BaseController {
      */
     @PostMapping("/list/category")
     @ResponseBody
-    public TableDataInfo listCategory() {
+    public TableDataInfo listCategory(LdCode ldCode) {
         startPage();
-        LdCode ldCode = new LdCode();
         ldCode.setCodeType("specialsort");
         List<LdCode> resultList = ldCodeService.selectLdCodeList(ldCode);
         return getDataTable(resultList);

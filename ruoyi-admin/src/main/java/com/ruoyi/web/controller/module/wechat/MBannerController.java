@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.module.wechat;
 
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,15 +27,15 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2020-09-08
  */
 @Controller
-@RequestMapping("/system/banner")
+@RequestMapping("/wechat/banner")
 public class MBannerController extends BaseController
 {
-    private String prefix = "system/banner";
+    private String prefix = "wechat/banner";
 
     @Autowired
     private IMBannerService mBannerService;
 
-    @RequiresPermissions("system:banner:view")
+    @RequiresPermissions("wechat:banner:view")
     @GetMapping()
     public String banner()
     {
@@ -44,7 +45,7 @@ public class MBannerController extends BaseController
     /**
      * 查询首页banner图列表
      */
-    @RequiresPermissions("system:banner:list")
+    @RequiresPermissions("wechat:banner:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(MBanner mBanner)
@@ -57,7 +58,7 @@ public class MBannerController extends BaseController
     /**
      * 导出首页banner图列表
      */
-    @RequiresPermissions("system:banner:export")
+    @RequiresPermissions("wechat:banner:export")
     @Log(title = "首页banner图", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,7 +81,7 @@ public class MBannerController extends BaseController
     /**
      * 新增保存首页banner图
      */
-    @RequiresPermissions("system:banner:add")
+    @RequiresPermissions("wechat:banner:add")
     @Log(title = "首页banner图", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -103,7 +104,7 @@ public class MBannerController extends BaseController
     /**
      * 修改保存首页banner图
      */
-    @RequiresPermissions("system:banner:edit")
+    @RequiresPermissions("wechat:banner:edit")
     @Log(title = "首页banner图", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -115,7 +116,7 @@ public class MBannerController extends BaseController
     /**
      * 删除首页banner图
      */
-    @RequiresPermissions("system:banner:remove")
+    @RequiresPermissions("wechat:banner:remove")
     @Log(title = "首页banner图", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

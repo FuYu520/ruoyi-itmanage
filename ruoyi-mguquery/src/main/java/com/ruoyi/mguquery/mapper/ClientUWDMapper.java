@@ -51,19 +51,19 @@ public interface ClientUWDMapper
      * 获取承保商信息列表
      * @return
      */
-    List getViewLiUnderWriterInfos();
+    List getViewLiUnderWriterInfos(@Param("underWriterName") String underWriterName);
 
     /**
      * 获取客户信息列表
      * @return
      */
-    List<ClientUWD> getViewLiClientBaseInfos();
+    List<ClientUWD> getViewLiClientBaseInfos(@Param("clientName") String clientName);
 
     /**
      * 根据承保商id集合查询对应得子承保商信息
      * @param underWriterIds
      * @return
      */
-    List<ClientUWD> getViewLiSubUWInfosByUnderWriterIds(@Param("underWriterIds") List<String> underWriterIds);
+    List<ClientUWD> getViewLiSubUWInfosByUnderWriterIds(@Param("underWriterIds") List<String> underWriterIds, @Param("SubUWName") String SubUWName);
 
 }

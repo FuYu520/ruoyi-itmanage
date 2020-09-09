@@ -46,12 +46,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select clientid from V_APP_CLIENTUWD  where lower(cshortname) LIKE lower(#{cShortName})
     </select>
 
-    <select id="getViewLiUnderWriterInfos" resultMap="ClientUWDResult">
-        SELECT DISTINCT underwriterid,underwritername FROM V_APP_CLIENTUWD WHERE UNDERWRITERID IS NOT NULL ORDER BY UNDERWRITERID ASC
+    <select id="getViewLiUnderWriterInfos" resultMap="ClientUWDResult" parameterType="java.lang.String">
+        SELECT DISTINCT underwriterid,underwritername FROM V_APP_CLIENTUWD WHERE UNDERWRITERID IS NOT NULL AND lower(UNDERWRITERNAME) LIKE lower(#{underWriterName}) ORDER BY UNDERWRITERID ASC
     </select>
 
-    <select id="getViewLiClientBaseInfos" resultMap="ClientUWDResult">
-        SELECT DISTINCT clientid,cshortname,cchinesename,cenglishname FROM V_APP_CLIENTUWD
+    <select id="getViewLiClientBaseInfos" resultMap="ClientUWDResult" parameterType="java.lang.String">
+        SELECT DISTINCT clientid,cshortname,cchinesename,cenglishname FROM V_APP_CLIENTUWD WHERE lower(CENGLISHNAME) like lower(#{clientName})
     </select>
 
     <select id="getViewLiSubUWInfosByUnderWriterIds" resultMap="ClientUWDResult">
@@ -60,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <foreach collection="underWriterIds" item="underWriterId" open="(" separator="," close=")">
              #{underWriterId}
          </foreach>
+         and lower(SUBUWNAME) like lower(#{SubUWName})
          AND SUBUNDERWRITERID IS NOT NULL order by SUBUNDERWRITERID)
         ORDER BY SUBUNDERWRITERID DESC
     </select>

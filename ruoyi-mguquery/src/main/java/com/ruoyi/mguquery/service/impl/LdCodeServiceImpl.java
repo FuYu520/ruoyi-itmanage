@@ -25,6 +25,7 @@ public class LdCodeServiceImpl implements LdCodeService {
 
     @Override
     public List<LdCode> selectLdCodeList(LdCode ldCode) {
+        ldCode.setCodeName("%" + ldCode.getSearchValue() + "%");
         return ldCodeMapper.selectLdCodeList(ldCode);
     }
 }

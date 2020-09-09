@@ -81,8 +81,8 @@ public class ClientUwServiceImpl implements ClientUwService {
      * @return
      */
     @Override
-    public List<ClientUWD> getViewLiUnderWriterInfos() {
-        return clientUWDMapper.getViewLiUnderWriterInfos();
+    public List<ClientUWD> getViewLiUnderWriterInfos(ClientUWD clientUWD) {
+        return clientUWDMapper.getViewLiUnderWriterInfos("%" + clientUWD.getSearchValue() + "%");
     }
 
     /**
@@ -91,10 +91,10 @@ public class ClientUwServiceImpl implements ClientUwService {
      * @return
      */
     @Override
-    public List<ClientUWD> getViewLiSubUWInfos(String underWriterIds) {
+    public List<ClientUWD> getViewLiSubUWInfos(String underWriterIds, String SubUWName) {
         if (StringUtils.isNotEmpty(underWriterIds)) {
             String[] underWriterIdArr = underWriterIds.split(",");
-            return clientUWDMapper.getViewLiSubUWInfosByUnderWriterIds(Arrays.asList(underWriterIdArr));
+            return clientUWDMapper.getViewLiSubUWInfosByUnderWriterIds(Arrays.asList(underWriterIdArr), "%" + SubUWName + "%");
         } else {
             return new ArrayList<>();
         }
@@ -105,7 +105,7 @@ public class ClientUwServiceImpl implements ClientUwService {
      * @return
      */
     @Override
-    public List<ClientUWD> getViewLiClientBaseInfos() {
-        return clientUWDMapper.getViewLiClientBaseInfos();
+    public List<ClientUWD> getViewLiClientBaseInfos(ClientUWD clientUWD) {
+        return clientUWDMapper.getViewLiClientBaseInfos("%" + clientUWD.getSearchValue() + "%");
     }
 }

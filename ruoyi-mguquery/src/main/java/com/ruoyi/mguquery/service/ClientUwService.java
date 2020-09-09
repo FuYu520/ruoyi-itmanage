@@ -46,19 +46,20 @@ public interface ClientUwService {
      * @param
      * @return
      */
-    List<ClientUWD> getViewLiUnderWriterInfos();
+    List<ClientUWD> getViewLiUnderWriterInfos(ClientUWD clientUWD);
 
     /**
      * 获取视图子承保商信息列表
-     * @param
+     * @param underWriterIds
+     * @param SubUWName
      * @return
      */
-    List<ClientUWD> getViewLiSubUWInfos(String underWriterIds);
+    List<ClientUWD> getViewLiSubUWInfos(String underWriterIds, String SubUWName);
 
     /**
      * 获取视图客户基本信息列表
      * @return
      */
-    List<ClientUWD> getViewLiClientBaseInfos();
+    List<ClientUWD> getViewLiClientBaseInfos(ClientUWD clientUWD);
 
 }

@@ -27,6 +27,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="codeType != '' and codeType != null">
                and codetype = #{codeType}
             </if>
+            <if test="codeName != '' and codeName != null">
+                and lower(codeName) like lower(#{codeName})
+            </if>
         </where>
     </select>
 </mapper>
