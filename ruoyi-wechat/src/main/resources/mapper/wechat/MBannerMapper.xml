@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wechat.mapper.MBannerMapper">
+    
+    <resultMap type="MBanner" id="MBannerResult">
+        <result property="id"    column="id"    />
+        <result property="underwriterId"    column="underwriter_id"    />
+        <result property="subunderwriterId"    column="subunderwriter_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="url"    column="url"    />
+        <result property="sort"    column="sort"    />
+        <result property="type"    column="type"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectMBannerVo">
+        select id, underwriter_id, subunderwriter_id, category_id, client_id, url, sort, type, status from m_banner
+    </sql>
+
+    <select id="selectMBannerList" parameterType="MBanner" resultMap="MBannerResult">
+        <include refid="selectMBannerVo"/>
+        <where>  
+            <if test="underwriterId != null  and underwriterId != ''"> and underwriter_id = #{underwriterId}</if>
+            <if test="subunderwriterId != null  and subunderwriterId != ''"> and subunderwriter_id = #{subunderwriterId}</if>
+            <if test="categoryId != null  and categoryId != ''"> and category_id = #{categoryId}</if>
+            <if test="clientId != null  and clientId != ''"> and client_id = #{clientId}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectMBannerById" parameterType="Long" resultMap="MBannerResult">
+        <include refid="selectMBannerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMBanner" parameterType="MBanner" useGeneratedKeys="true" keyProperty="id">
+        insert into m_banner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="underwriterId != null">underwriter_id,</if>
+            <if test="subunderwriterId != null">subunderwriter_id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="clientId != null">client_id,</if>
+            <if test="url != null">url,</if>
+            <if test="sort != null">sort,</if>
+            <if test="type != null">type,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="underwriterId != null">#{underwriterId},</if>
+            <if test="subunderwriterId != null">#{subunderwriterId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="clientId != null">#{clientId},</if>
+            <if test="url != null">#{url},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="type != null">#{type},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMBanner" parameterType="MBanner">
+        update m_banner
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="underwriterId != null">underwriter_id = #{underwriterId},</if>
+            <if test="subunderwriterId != null">subunderwriter_id = #{subunderwriterId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="clientId != null">client_id = #{clientId},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMBannerById" parameterType="Long">
+        delete from m_banner where id = #{id}
+    </delete>
+
+    <delete id="deleteMBannerByIds" parameterType="String">
+        delete from m_banner where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
